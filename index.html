@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SEFAZ-DF Study | Bruno Gubiotti</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f1f5f9;color:#1e293b}
+/* HEADER */
+.header{background:#1e293b;color:#fff;padding:12px 20px;display:flex;align-items:center;gap:16px}
+.header-title{font-weight:800;font-size:18px;letter-spacing:-.5px}
+.header-sub{font-size:11px;color:#94a3b8}
+.header-spacer{flex:1}
+.badge-red{background:#ef4444;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:#fff}
+/* TABS */
+.tabs{background:#fff;border-bottom:2px solid #e2e8f0;display:flex;overflow-x:auto;gap:0}
+.tab-btn{padding:12px 16px;border:none;cursor:pointer;font-size:13px;font-weight:700;background:transparent;color:#64748b;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:all .2s}
+.tab-btn.active{background:#fff;color:#1e293b;border-bottom-color:#1e293b}
+.tab-btn:hover{color:#1e293b}
+/* CONTENT */
+.content{padding:20px;max-width:1100px;margin:0 auto}
+.tab-pane{display:none}.tab-pane.active{display:block}
+/* CARDS */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.card{border-radius:10px;padding:16px;border:1px solid}
+.card-green{background:#f0fdf4;border-color:#86efac}
+.card-yellow{background:#fffbeb;border-color:#fbbf24}
+.card-blue{background:#eff6ff;border-color:#93c5fd}
+.card-red{background:#fef2f2;border-color:#fca5a5}
+.card-purple{background:#fdf4ff;border-color:#d8b4fe}
+.card-label{font-size:11px;font-weight:700;margin-bottom:4px}
+.card-num{font-size:28px;font-weight:800}
+.card-sub{font-size:11px;color:#6b7280}
+/* BADGE */
+.badge{display:inline-block;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700}
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{background:#1e293b;color:#fff;padding:8px 12px;text-align:left;font-size:11px;font-weight:700}
+.tbl td{padding:8px 12px;border-bottom:1px solid #e2e8f0}
+.tbl tr:nth-child(even) td{background:#f8fafc}
+/* PROGRESS BAR */
+.pbar-wrap{background:#e2e8f0;border-radius:99px;overflow:hidden}
+.pbar{height:10px;border-radius:99px;transition:width .4s}
+/* SECTION TITLE */
+.sec-title{font-size:14px;font-weight:800;margin:20px 0 12px}
+/* ALERT BOXES */
+.alert{border-radius:8px;padding:12px;margin-bottom:10px;font-size:13px}
+.alert-yellow{background:#fffbeb;border:1px solid #fbbf24;color:#78350f}
+.alert-red{background:#fef2f2;border:1px solid #fca5a5;color:#7f1d1d}
+.alert-green{background:#f0fdf4;border:1px solid #86efac;color:#14532d}
+.alert-blue{background:#eff6ff;border:1px solid #93c5fd;color:#1e3a8a}
+/* SIDEBAR LAYOUT */
+.sidebar-layout{display:grid;grid-template-columns:200px 1fr;gap:0;min-height:500px}
+.sidebar{border-right:1px solid #e2e8f0;padding-right:0}
+.sidebar-btn{width:100%;text-align:left;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:500;margin-bottom:4px;background:transparent;color:#374151;display:flex;align-items:center;gap:8px;transition:all .2s}
+.sidebar-btn.active{background:#1e293b;color:#fff;font-weight:700}
+.sidebar-btn:hover:not(.active){background:#f1f5f9}
+.sidebar-label{font-size:11px;color:#64748b;font-weight:700;padding:12px 0 6px}
+.main-pane{padding-left:20px}
+/* INNER TABS */
+.inner-tabs{display:flex;gap:4px;margin-bottom:16px}
+.inner-tab{padding:6px 14px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:700;background:#e2e8f0;color:#374151;transition:all .2s}
+.inner-tab.active{background:#1e293b;color:#fff}
+/* QUESTAO */
+.questao-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin-bottom:12px}
+.q-meta{font-size:11px;color:#64748b;margin-bottom:6px}
+.q-text{font-size:13px;line-height:1.7;margin-bottom:10px;font-weight:500}
+.q-opts{display:flex;gap:8px;margin-bottom:8px}
+.q-btn{padding:8px 20px;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;font-weight:800;font-size:13px;background:#fff;color:#374151;transition:all .2s}
+.q-btn:hover{border-color:#1e293b}
+.q-btn.certo{border-color:#22c55e;background:#f0fdf4;color:#15803d}
+.q-btn.errado{border-color:#ef4444;background:#fef2f2;color:#dc2626}
+.q-feedback{font-size:12px;font-weight:700;margin-bottom:6px}
+.q-gabarito{background:#fffbeb;border:1px solid #fbbf24;border-radius:6px;padding:8px 10px;font-size:12px;color:#78350f;display:none}
+.q-gabarito.show{display:block}
+/* SIMULADO */
+.sim-header{background:#1e293b;border-radius:10px;padding:10px 16px;margin-bottom:16px;color:#fff;display:flex;align-items:center;gap:16px}
+.sim-timer{font-weight:800;font-size:20px;font-family:monospace}
+.sim-questao{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:20px;margin-bottom:16px}
+.sim-opts{display:flex;gap:10px;margin-top:16px}
+.sim-opt{flex:1;padding:14px;border:2px solid #e2e8f0;border-radius:10px;cursor:pointer;font-weight:800;font-size:16px;background:#fff;text-align:center;transition:all .2s}
+.sim-opt:hover{border-color:#1e293b}
+.sim-opt.certo{border-color:#22c55e;background:#f0fdf4;color:#15803d}
+.sim-opt.errado{border-color:#ef4444;background:#fef2f2;color:#dc2626}
+.sim-nav{display:flex;justify-content:space-between;align-items:center}
+.btn{padding:8px 20px;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;transition:all .2s}
+.btn-dark{background:#1e293b;color:#fff}
+.btn-blue{background:#3b82f6;color:#fff}
+.btn-red{background:#ef4444;color:#fff}
+.btn:hover{opacity:.85}
+.numpad{display:flex;flex-wrap:wrap;gap:4px;max-width:300px}
+.num-btn{width:28px;height:28px;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:700;background:#e2e8f0;color:#374151}
+.num-btn.atual{background:#1e293b;color:#fff}
+.num-btn.resp{background:#22c55e;color:#fff}
+/* RESULTADO */
+.resultado-big{text-align:center;border-radius:12px;padding:24px;margin-bottom:20px;border:2px solid}
+/* CRONOGRAMA */
+.mes-header{width:100%;text-align:left;background:#1e293b;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px;margin-bottom:0}
+.mes-body{border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;overflow:hidden;margin-bottom:12px}
+.mes-body.hidden{display:none}
+/* TEORIA */
+.teoria-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;white-space:pre-wrap;font-family:'Segoe UI',sans-serif;font-size:13px;line-height:1.8;color:#1e293b}
+/* CHECKBOX */
+input[type=checkbox]{width:14px;height:14px;cursor:pointer}
+/* FILTROS */
+.filtros{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.filtro-btn{padding:4px 12px;border-radius:20px;border:none;cursor:pointer;font-size:12px;font-weight:600;background:#e2e8f0;color:#374151;transition:all .2s}
+.filtro-btn.active{background:#1e293b;color:#fff}
+/* PBAR LABEL */
+.pbar-row{margin-bottom:10px}
+.pbar-top{display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px}
+/* MONOSPACE FORMULA */
+.formula{font-family:monospace;font-size:14px;background:#fff;padding:12px;border-radius:6px;margin-bottom:8px}
+@media(max-width:700px){
+  .cards3{grid-template-columns:1fr}
+  .sidebar-layout{grid-template-columns:1fr}
+  .sidebar{border-right:none;border-bottom:1px solid #e2e8f0;padding-bottom:12px;margin-bottom:12px}
+  .main-pane{padding-left:0}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-title">SEFAZ-DF Study</div>
+    <div class="header-sub">Auditor Fiscal – Cebraspe | Prova: 20/12/2026</div>
+  </div>
+  <div class="header-spacer"></div>
+  <span style="font-size:12px;color:#fbbf24;font-weight:700">Bruno Gubiotti</span>
+  <div class="badge-red">⏳ ~190 dias</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('pareto')">📊 Prioridades</button>
+  <button class="tab-btn" onclick="showTab('cronograma')">📅 Cronograma</button>
+  <button class="tab-btn" onclick="showTab('estudar')">📚 Estudar</button>
+  <button class="tab-btn" onclick="showTab('simulado')">❓ Simulado</button>
+  <button class="tab-btn" onclick="showTab('lista')">📋 Lista Pareto</button>
+  <button class="tab-btn" onclick="showTab('regua')">⚠️ Régua de Corte</button>
+  <button class="tab-btn" onclick="showTab('progresso')">📈 Progresso</button>
+</div>
+
+<div class="content">
+
+<!-- ═══════════════════════════════════════════ ABA 1 PARETO -->
+<div id="tab-pareto" class="tab-pane active">
+  <div class="cards3">
+    <div class="card card-red"><div class="card-label" style="color:#ef4444">⚡ PRIORITÁRIAS</div><div class="card-num" style="color:#dc2626">56%</div><div class="card-sub">do peso total da prova</div></div>
+    <div class="card card-yellow"><div class="card-label" style="color:#d97706">📚 P2 (Específicos)</div><div class="card-num" style="color:#b45309">3×</div><div class="card-sub">peso na nota final</div></div>
+    <div class="card card-green"><div class="card-label" style="color:#16a34a">🎯 Corte estimado</div><div class="card-num" style="color:#15803d">48+</div><div class="card-sub">acertos em cada prova</div></div>
+  </div>
+  <div class="alert alert-yellow" style="margin-bottom:16px"><strong>🔢 Fórmula:</strong> NFPO = (NP1 + 3×NP2) / 4 &nbsp;|&nbsp; NFPE = (NP1 + 3×NP2 + 2×NPD) / 6 &nbsp;|&nbsp; Aprovação mínima: NP1 ≥ 48 E NP2 ≥ 48 acertos</div>
+
+  <div class="sec-title">🕐 Alocação de Tempo</div>
+  <div class="pbar-row"><div class="pbar-top"><span style="color:#ef4444;font-weight:700">PRIORITÁRIA</span><span>60%</span></div><div class="pbar-wrap"><div class="pbar" style="width:60%;background:#ef4444"></div></div><div style="font-size:10px;color:#94a3b8;margin-top:3px">LT, CG, AF, DT (Específicos P2)</div></div>
+  <div class="pbar-row"><div class="pbar-top"><span style="color:#f59e0b;font-weight:700">COMPLEMENTAR</span><span>35%</span></div><div class="pbar-wrap"><div class="pbar" style="width:35%;background:#f59e0b"></div></div><div style="font-size:10px;color:#94a3b8;margin-top:3px">Básicos P1 + Direito Financeiro</div></div>
+  <div class="pbar-row"><div class="pbar-top"><span style="color:#6b7280;font-weight:700">RESIDUAL</span><span>5%</span></div><div class="pbar-wrap"><div class="pbar" style="width:5%;background:#6b7280"></div></div><div style="font-size:10px;color:#94a3b8;margin-top:3px">Conhecimentos do DF</div></div>
+
+  <div class="sec-title">📋 Tabela de Disciplinas</div>
+  <div style="overflow-x:auto">
+  <table class="tbl">
+    <thead><tr><th>Disciplina</th><th>Prova</th><th>Questões</th><th>Peso %</th><th>Categoria</th><th>Seu Nível</th><th>Tempo Sem.</th></tr></thead>
+    <tbody id="tbl-disciplinas"></tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ ABA 2 CRONOGRAMA -->
+<div id="tab-cronograma" class="tab-pane">
+  <div class="cards3">
+    <div class="card card-green"><div class="card-label" style="color:#16a34a">✅ Concluído</div><div class="card-num" id="cron-feitos">0</div><div class="pbar-wrap" style="margin-top:6px"><div class="pbar" id="cron-bar" style="width:0%;background:#22c55e;height:8px"></div></div></div>
+    <div class="card card-blue"><div class="card-label" style="color:#1d4ed8">📅 Sessões restantes</div><div class="card-num" id="cron-restantes">0</div></div>
+    <div class="card card-purple"><div class="card-label" style="color:#7c3aed">🎯 Prova</div><div class="card-num">20/12</div><div class="card-sub">2026</div></div>
+  </div>
+  <div id="cronograma-container"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════ ABA 3 ESTUDAR -->
+<div id="tab-estudar" class="tab-pane">
+  <div class="sidebar-layout">
+    <div class="sidebar">
+      <div class="sidebar-label">DISCIPLINAS</div>
+      <button class="sidebar-btn active" onclick="setDisc('lt',this)">📜 Leg. Tributária</button>
+      <button class="sidebar-btn" onclick="setDisc('dt',this)">⚖️ Dir. Tributário</button>
+      <button class="sidebar-btn" onclick="setDisc('cg',this)">📊 Contabilidade</button>
+      <button class="sidebar-btn" onclick="setDisc('af',this)">🔍 Auditoria Fiscal</button>
+      <div class="sidebar-label" id="temas-label">TEMAS</div>
+      <div id="temas-container"></div>
+    </div>
+    <div class="main-pane">
+      <div id="estudo-titulo" style="font-size:16px;font-weight:800;margin-bottom:8px"></div>
+      <div id="estudo-status" style="margin-bottom:12px"></div>
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="setInnerTab('teoria',this)">📖 Teoria</button>
+        <button class="inner-tab" onclick="setInnerTab('pegadinhas',this)">⚠️ Pegadinhas</button>
+        <button class="inner-tab" onclick="setInnerTab('questoes',this)">❓ Questões</button>
+      </div>
+      <div id="inner-teoria"></div>
+      <div id="inner-pegadinhas" style="display:none"></div>
+      <div id="inner-questoes" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ ABA 4 SIMULADO -->
+<div id="tab-simulado" class="tab-pane">
+  <div id="sim-config">
+    <div class="card card-blue" style="margin-bottom:16px">
+      <div style="font-weight:800;font-size:15px;margin-bottom:12px">⚙️ Configurar Simulado</div>
+      <div style="font-weight:700;font-size:13px;margin-bottom:8px">Disciplinas:</div>
+      <div id="sim-filtros" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px"></div>
+      <button class="btn btn-dark" style="font-size:14px;padding:10px 28px" onclick="iniciarSimulado()">🚀 Iniciar Simulado (90 min)</button>
+      <span style="font-size:12px;color:#6b7280;margin-left:12px" id="sim-count">50 questões disponíveis</span>
+    </div>
+  </div>
+  <div id="sim-game" style="display:none">
+    <div class="sim-header">
+      <span class="sim-timer" id="sim-timer">90:00</span>
+      <div style="flex:1;margin:0 16px">
+        <div class="pbar-wrap"><div class="pbar" id="sim-prog" style="width:0%;background:#3b82f6;height:8px"></div></div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:3px;text-align:center" id="sim-progtext">0/50</div>
+      </div>
+      <button class="btn btn-red" onclick="encerrarSimulado()">Encerrar</button>
+    </div>
+    <div class="sim-questao">
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px">
+        <span id="sim-disc-badge"></span>
+        <span style="font-size:12px;color:#64748b" id="sim-qnum"></span>
+      </div>
+      <p id="sim-enunciado" style="font-size:14px;line-height:1.8;font-weight:500"></p>
+      <div class="sim-opts">
+        <div class="sim-opt" id="sim-certo" onclick="responderSim('CERTO')">✅ CERTO</div>
+        <div class="sim-opt" id="sim-errado" onclick="responderSim('ERRADO')">❌ ERRADO</div>
+      </div>
+    </div>
+    <div class="sim-nav">
+      <button class="btn btn-dark" onclick="navSim(-1)">← Anterior</button>
+      <div class="numpad" id="sim-numpad"></div>
+      <button class="btn btn-blue" onclick="navSim(1)" id="sim-prox">Próxima →</button>
+    </div>
+  </div>
+  <div id="sim-resultado" style="display:none"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════ ABA 5 LISTA PARETO -->
+<div id="tab-lista" class="tab-pane">
+  <div class="alert alert-yellow" style="margin-bottom:16px"><strong>🎯 Pareto Recursivo:</strong> Ordenado por retorno esperado (questões/hora). Tópicos QUENTES = 20% do conteúdo que cobre ~80% das questões Cebraspe.</div>
+  <div style="overflow-x:auto">
+  <table class="tbl">
+    <thead><tr><th>#</th><th>Disc.</th><th>Tópico</th><th>Subtópico/Foco</th><th>Justificativa</th><th>Retorno</th><th>Status</th></tr></thead>
+    <tbody id="tbl-lista"></tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ ABA 6 REGUA -->
+<div id="tab-regua" class="tab-pane">
+  <div class="sec-title">🚫 O Que NÃO Estudar</div>
+  <div id="nao-estudar-container"></div>
+  <div class="sec-title">🎯 Alertas de Banca (Cebraspe)</div>
+  <div id="alertas-container"></div>
+  <div class="sec-title">📐 Fórmula da Nota Final</div>
+  <div class="alert alert-green">
+    <div class="formula">NFPO = (NP1 + 3×NP2) / 4<br>NFPE = (NP1 + 3×NP2 + 2×NPD) / 6<br>Corte: NP1 ≥ 48 acertos E NP2 ≥ 48 acertos</div>
+    <div style="font-size:12px">💡 1 ponto a mais em P2 equivale a 3 pontos em P1 na média. Priorize SEMPRE P2.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ ABA 7 PROGRESSO -->
+<div id="tab-progresso" class="tab-pane">
+  <div class="cards3">
+    <div class="card" style="background:#f8fafc;border-color:#e2e8f0;text-align:center"><div class="card-label" style="color:#64748b">Nível médio geral</div><div class="card-num" id="prog-media" style="color:#f59e0b">42%</div></div>
+    <div class="card card-red" style="text-align:center"><div class="card-label" style="color:#ef4444">Disciplinas Zero</div><div class="card-num" style="color:#dc2626">2</div></div>
+    <div class="card card-green" style="text-align:center"><div class="card-label" style="color:#16a34a">Bom/Médio</div><div class="card-num" style="color:#15803d">7</div></div>
+  </div>
+  <div class="sec-title">🔥 Mapa de Calor por Disciplina</div>
+  <div id="heatmap-container"></div>
+  <div class="sec-title">🔄 Revisão Espaçada (Ebbinghaus)</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+    <div class="alert alert-blue"><strong>Após 1 dia</strong><br>Revisar anotações do estudo recente</div>
+    <div class="alert alert-blue"><strong>Após 7 dias</strong><br>Resolver 5 questões do tópico</div>
+    <div class="alert alert-blue"><strong>Após 30 dias</strong><br>Mini-simulado do tópico</div>
+    <div class="alert alert-blue"><strong>Após 90 dias</strong><br>Simulado completo da disciplina</div>
+  </div>
+  <div class="alert alert-purple" style="background:#fdf4ff;border-color:#d8b4fe">
+    <div style="font-weight:800;font-size:14px;margin-bottom:8px">🎯 Previsão de Nota</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:#fff;border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:800;color:#7c3aed">~6.2–6.8</div><div style="font-size:11px;color:#6b7280">NP1 (meta: &gt;4.8)</div></div>
+      <div style="background:#fff;border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:800;color:#7c3aed">~7.0–7.8</div><div style="font-size:11px;color:#6b7280">NP2 (meta: &gt;4.8)</div></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+// ═══════════════════════════════════ DADOS
+const DISCIPLINAS=[
+  {id:"lp",nome:"Língua Portuguesa",prova:"P1",q:10,peso:5.0,cat:"COMPLEMENTAR",nivel:"Bom"},
+  {id:"df_co",nome:"Conhecimentos do DF",prova:"P1",q:2,peso:1.0,cat:"RESIDUAL",nivel:"Zero"},
+  {id:"cp",nome:"Contabilidade Pública",prova:"P1",q:8,peso:4.0,cat:"COMPLEMENTAR",nivel:"Médio"},
+  {id:"da",nome:"Direito Administrativo",prova:"P1",q:10,peso:5.0,cat:"COMPLEMENTAR",nivel:"Bom"},
+  {id:"dc",nome:"Direito Constitucional",prova:"P1",q:10,peso:5.0,cat:"COMPLEMENTAR",nivel:"Bom"},
+  {id:"dcep",nome:"Dir. Civil, Empresarial e Penal",prova:"P1",q:10,peso:5.0,cat:"COMPLEMENTAR",nivel:"Médio"},
+  {id:"efp",nome:"Economia e Finanças Públicas",prova:"P1",q:10,peso:5.0,cat:"COMPLEMENTAR",nivel:"Zero"},
+  {id:"ti",nome:"Tecnologia da Informação",prova:"P1",q:10,peso:5.0,cat:"COMPLEMENTAR",nivel:"Médio"},
+  {id:"mrl",nome:"Matemática e Raciocínio Lógico",prova:"P1",q:10,peso:5.0,cat:"COMPLEMENTAR",nivel:"Bom"},
+  {id:"af",nome:"Auditoria Fiscal ICMS/ISS",prova:"P2",q:20,peso:15.0,cat:"PRIORITÁRIA",nivel:"Médio"},
+  {id:"cg",nome:"Contabilidade Geral e Custos",prova:"P2",q:15,peso:11.25,cat:"PRIORITÁRIA",nivel:"Fraco"},
+  {id:"dfin",nome:"Direito Financeiro",prova:"P2",q:5,peso:3.75,cat:"COMPLEMENTAR",nivel:"Bom"},
+  {id:"dt",nome:"Direito Tributário",prova:"P2",q:15,peso:11.25,cat:"PRIORITÁRIA",nivel:"Bom"},
+  {id:"lt",nome:"Legislação Tributária DF",prova:"P2",q:25,peso:18.75,cat:"PRIORITÁRIA",nivel:"Fraco"},
+];
+const NIVEL_COR={Bom:"#22c55e",Médio:"#f59e0b",Fraco:"#ef4444",Zero:"#7c3aed"};
+const CAT_COR={"PRIORITÁRIA":"#ef4444","COMPLEMENTAR":"#f59e0b","RESIDUAL":"#6b7280"};
+const DISC_MAP=Object.fromEntries(DISCIPLINAS.map(d=>[d.id,d]));
+
+const QUESTOES=[
+  {id:1,disc:"lt",top:"ICMS – Fato Gerador",txt:"O ICMS incide sobre a entrada de mercadoria importada do exterior, ainda que se trate de bem destinado ao ativo permanente do estabelecimento importador.",gab:"CERTO",com:"Incide mesmo em ativo permanente. Fato gerador: entrada no estabelecimento (LC 87/1996, art. 2º, IV)."},
+  {id:2,disc:"lt",top:"ICMS – Não-Incidência",txt:"Operações de exportação de mercadorias para o exterior não são tributadas pelo ICMS, e o exportador pode se creditar do imposto pago nas operações anteriores.",gab:"CERTO",com:"Imunidade constitucional (CF art. 155, §2º, X, 'a'). Exportador mantém direito ao crédito (LC 87/1996, art. 25)."},
+  {id:3,disc:"lt",top:"ICMS – Crédito Fiscal",txt:"É vedado o crédito de ICMS referente à aquisição de bens do ativo permanente em qualquer hipótese.",gab:"ERRADO",com:"ERRADO! Crédito é PERMITIDO para ativo permanente, mas apropriado à razão de 1/48 por mês."},
+  {id:4,disc:"lt",top:"ISS – Lei 116/2003",txt:"No caso de serviços de construção civil, o ISS é devido no município onde está estabelecido o prestador do serviço.",gab:"ERRADO",com:"ERRADO! Para construção civil (subitem 7.02), o ISS é devido no LOCAL da obra. LC 116/2003, art. 3º, II."},
+  {id:5,disc:"lt",top:"Processo Adm. Fiscal DF",txt:"O prazo decadencial para constituição do crédito tributário por lançamento de ofício é de 5 anos contados do primeiro dia do exercício seguinte ao fato gerador.",gab:"CERTO",com:"CTN, art. 173, I: 5 anos a partir do 1º dia do exercício seguinte ao fato gerador."},
+  {id:6,disc:"dt",top:"Obrigação Tributária",txt:"A responsabilidade tributária por substituição exclui a responsabilidade do contribuinte original.",gab:"CERTO",com:"CTN, art. 128: o substituto EXCLUI a responsabilidade do substituído — o Fisco só cobra do substituto."},
+  {id:7,disc:"dt",top:"Crédito Tributário",txt:"O parcelamento do crédito tributário suspende sua exigibilidade, impedindo o ajuizamento de execução fiscal enquanto vigente o acordo.",gab:"CERTO",com:"CTN, art. 151, VI. Parcelamento é modalidade de suspensão. Enquanto vigente, impede execução fiscal."},
+  {id:8,disc:"dt",top:"Crédito Tributário",txt:"A anistia retroage para extinguir infrações já praticadas antes de sua concessão.",gab:"ERRADO",com:"Anistia é EXCLUSÃO do crédito (não extinção), aplicável a infrações anteriores. Não 'extingue' — impede o lançamento da penalidade."},
+  {id:9,disc:"dt",top:"Competência Tributária",txt:"Os municípios possuem imunidade tributária recíproca sobre seu patrimônio, renda e serviços vinculados a finalidades essenciais.",gab:"CERTO",com:"CF, art. 150, VI, 'a'. Imunidade recíproca protege todos os entes federativos."},
+  {id:10,disc:"dt",top:"Competência Tributária",txt:"A imunidade tributária de templos abrange todos os imóveis pertencentes à entidade religiosa, independentemente de estarem sendo utilizados para atividades religiosas.",gab:"ERRADO",com:"STF (RE 325.822): imunidade abrange apenas patrimônio VINCULADO às finalidades essenciais."},
+  {id:11,disc:"af",top:"Fraudes Fiscais",txt:"A identificação de saldo credor na conta caixa é indício de omissão de receitas.",gab:"CERTO",com:"Saldo credor no caixa (impossibilidade física) → evidência de omissão de receitas. Técnica clássica de auditoria fiscal."},
+  {id:12,disc:"af",top:"EFD – SPED",txt:"O SPED Fiscal substitui integralmente a guarda dos documentos fiscais físicos.",gab:"ERRADO",com:"ERRADO! A EFD não dispensa guarda dos documentos originais. Prazo: 5 anos."},
+  {id:13,disc:"af",top:"Auditoria – Noções",txt:"Na amostragem em auditoria (NBC TA 530), tanto a amostragem estatística quanto a não estatística são válidas, desde que os resultados sejam projetados para a população.",gab:"CERTO",com:"NBC TA 530, item 5: ambas as abordagens são válidas. Projeção para a população é obrigatória."},
+  {id:14,disc:"cg",top:"Custeio",txt:"No custeio por absorção, os custos fixos fazem parte do custo do produto; no custeio variável, são despesas do período.",gab:"CERTO",com:"Diferença fundamental: absorção inclui fixos no custo (inventariável). No variável, fixos são despesas do período."},
+  {id:15,disc:"cg",top:"Ponto de Equilíbrio",txt:"O ponto de equilíbrio contábil é aquele em que a receita total iguala os custos e despesas totais, resultando em lucro líquido igual a zero.",gab:"CERTO",com:"Definição correta do PEC. PE econômico considera custo de oportunidade. PE financeiro desconsidera depreciação."},
+  {id:16,disc:"cg",top:"DFC",txt:"Na DFC pelo método indireto, o lucro líquido é o ponto de partida, com ajustes de itens não-caixa e variações no capital de giro.",gab:"CERTO",com:"Método indireto: parte do lucro líquido → ajustes (+depreciação; ±variação ativos/passivos circulantes)."},
+  {id:17,disc:"cg",top:"Estoques",txt:"Pelo PEPS, em períodos de inflação, o CMV tende a ser menor e o estoque final maior comparado à média ponderada.",gab:"CERTO",com:"Em inflação: PEPS usa custos mais antigos (menores) para o CMV → CMV menor, estoque maior (avaliado pelos custos mais recentes)."},
+  {id:18,disc:"da",top:"Licitações",txt:"O contrato administrativo pode ser alterado unilateralmente pela Administração para restabelecer a equação econômico-financeira.",gab:"ERRADO",com:"ERRADO! Alteração unilateral (art. 65, I) adapta o OBJETO. Reequilíbrio exige ACORDO (art. 65, II, 'd')."},
+  {id:19,disc:"dc",top:"Controle de Constitucionalidade",txt:"A ADPF tem caráter subsidiário, cabendo apenas quando não houver outro meio eficaz de sanar a lesividade.",gab:"CERTO",com:"ADPF é subsidiária (Lei 9.882/1999, art. 4º, §1º)."},
+  {id:20,disc:"lp",top:"Interpretação",txt:"Em provas do Cebraspe, itens de compreensão textual devem ser julgados com base apenas nas informações do próprio texto.",gab:"CERTO",com:"Método Cebraspe: inferências sustentadas pelo texto. Usar conhecimento externo é armadilha clássica."},
+  {id:21,disc:"lt",top:"ICMS – Não-Cumulatividade",txt:"O princípio da não-cumulatividade do ICMS garante que o imposto pago na operação anterior seja sempre e integralmente compensado na operação seguinte, sem exceções.",gab:"ERRADO",com:"ERRADO! Há exceções: isenção ou não-incidência nas etapas anteriores implicam vedação ao crédito (CF, art. 155, §2º, II)."},
+  {id:22,disc:"dt",top:"Crédito Tributário",txt:"O depósito integral do montante tributário em juízo suspende a exigibilidade do crédito tributário.",gab:"CERTO",com:"CTN, art. 151, II. O depósito é modalidade de suspensão da exigibilidade."},
+  {id:23,disc:"af",top:"Auditoria Ativo",txt:"A não baixa de títulos a receber com prazo vencido pode indicar que o valor foi recebido informalmente sem registro.",gab:"CERTO",com:"Técnica: recebíveis não baixados → possível recebimento informal. Auditor cruza com extratos bancários."},
+  {id:24,disc:"cg",top:"Regime Competência",txt:"No regime de competência, a receita é registrada no momento da ocorrência do fato gerador econômico, não do recebimento.",gab:"CERTO",com:"Definição correta do regime de competência (CPC 47). Regime de caixa = momento do recebimento."},
+  {id:25,disc:"efp",top:"LRF",txt:"A LRF veda ao Banco Central conceder empréstimos à União para cobrir déficits em suas contas.",gab:"CERTO",com:"LRF, art. 39, §1º: vedação ao Bacen para financiar deficit via emissão monetária."},
+  {id:26,disc:"lt",top:"ISS – Serviços Financeiros",txt:"O ISS sobre serviços bancários tem como base de cálculo a receita bruta total da instituição financeira.",gab:"ERRADO",com:"ERRADO! BC = preço do SERVIÇO prestado, excluindo captação e aplicação de recursos próprios (STJ)."},
+  {id:27,disc:"dt",top:"Capacidade Tributária",txt:"A capacidade tributária passiva independe da capacidade civil das pessoas naturais.",gab:"CERTO",com:"CTN, art. 126, I: menor de idade pode ser contribuinte (ex: IPTU sobre imóvel herdado)."},
+  {id:28,disc:"af",top:"Testes de Auditoria",txt:"Os testes de observância avaliam se os controles internos existem e funcionam; os testes substantivos verificam a exatidão dos valores.",gab:"CERTO",com:"Distinção fundamental: observância (compliance) → controles. Substantivos → exatidão dos saldos."},
+  {id:29,disc:"cg",top:"DVA",txt:"A DVA é de elaboração obrigatória apenas para companhias abertas e evidencia a riqueza gerada e como foi distribuída.",gab:"CERTO",com:"CPC 09 e Lei 6.404/76 (art. 176, V): DVA obrigatória para companhias abertas."},
+  {id:30,disc:"da",top:"Atos Administrativos",txt:"A revogação do ato administrativo discricionário pode ser feita pela Administração a qualquer tempo por razões de conveniência e oportunidade, com efeitos ex nunc.",gab:"CERTO",com:"Revogação: discricionário, ex nunc, por conveniência. ≠ Anulação: ilegalidade, ex tunc."},
+  {id:31,disc:"lt",top:"DIFAL",txt:"O DIFAL de ICMS nas operações com consumidor final não contribuinte passou a ser repartido entre Estado de origem e de destino com base na EC 87/2015.",gab:"CERTO",com:"EC 87/2015: criou sistemática de partilha do DIFAL nas operações B2C."},
+  {id:32,disc:"dt",top:"Sigilo Bancário",txt:"A autoridade fiscal pode requisitar informações bancárias diretamente às instituições financeiras, sem autorização judicial, para verificação de obrigações tributárias.",gab:"CERTO",com:"LC 105/2001 e STF (RE 601.314/SP): quebra administrativa do sigilo bancário é constitucional."},
+  {id:33,disc:"cg",top:"GAO",txt:"O GAO é calculado como a razão entre a margem de contribuição total e o lucro operacional.",gab:"CERTO",com:"GAO = MC Total / Lucro Operacional. GAO = 3: aumento de 10% nas vendas → lucro aumenta 30%."},
+  {id:34,disc:"af",top:"NF-e",txt:"A NF-e é regulamentada pelo Ajuste SINIEF 07/2005 e tem validade jurídica pela assinatura digital com certificado ICP-Brasil.",gab:"CERTO",com:"Ajuste SINIEF 07/2005 é o normativo central da NF-e. ICP-Brasil garante autoria e integridade."},
+  {id:35,disc:"dfin",top:"Créditos Orçamentários",txt:"Os créditos extraordinários podem ser abertos por Medida Provisória, sem indicação de fonte de recursos.",gab:"CERTO",com:"CF, art. 167, §3º: créditos extraordinários dispensam indicação de recursos. Exemplos: guerra, calamidade."},
+  {id:36,disc:"dc",top:"Irretroatividade",txt:"O princípio da irretroatividade tributária impede que lei nova alcance fatos geradores ocorridos antes de sua vigência.",gab:"CERTO",com:"CTN, art. 106 c/c CF, art. 150, III, 'a'. Protege o fato gerador já ocorrido."},
+  {id:37,disc:"lt",top:"Súmulas STF",txt:"Segundo o STF (Súmula Vinculante 32), o ICMS não incide sobre alienação de salvados de sinistro pelas seguradoras.",gab:"CERTO",com:"SV 32 do STF: 'O ICMS não incide sobre alienação de salvados de sinistro pelas seguradoras.'"},
+  {id:38,disc:"dt",top:"Extinção do Crédito",txt:"A compensação de créditos tributários depende de lei que a autorize e é modalidade de extinção do crédito tributário.",gab:"CERTO",com:"CTN, art. 156, II e art. 170: compensação é extinção e depende de lei autorizativa."},
+  {id:39,disc:"cg",top:"Depreciação",txt:"A depreciação reduz o resultado e o saldo de disponibilidades da empresa simultaneamente.",gab:"ERRADO",com:"ERRADO! Depreciação é custo NÃO CAIXA. Reduz resultado (DRE) mas NÃO afeta caixa. Por isso é somada no método indireto da DFC."},
+  {id:40,disc:"af",top:"Passivos Fictícios",txt:"Passivos fictícios servem para aumentar artificialmente custos e despesas, reduzindo o lucro tributável.",gab:"CERTO",com:"Fraude clássica: lançar despesas não realizadas para inflar custos e reduzir base do IRPJ/CSLL."},
+  {id:41,disc:"da",top:"Concessão",txt:"No contrato de concessão comum, o concessionário assume os riscos do empreendimento e a remuneração se dá pela tarifa cobrada dos usuários.",gab:"CERTO",com:"Lei 8.987/1995: concessionário arca com riscos. Remuneração = tarifa. ≠ PPP (Lei 11.079/2004)."},
+  {id:42,disc:"mrl",top:"Lógica",txt:"'Se João pagou o tributo, então a dívida foi extinta' é equivalente a 'Se a dívida não foi extinta, então João não pagou o tributo'.",gab:"CERTO",com:"Contraposição: P→Q ≡ ¬Q→¬P. Forma válida. Recíproca (Q→P) e inversa (¬P→¬Q) NÃO são equivalentes."},
+  {id:43,disc:"lt",top:"Simples Nacional",txt:"A empresa optante pelo Simples recolhe ICMS e ISS em documento único, vedada utilização de benefícios fiscais externos ao regime.",gab:"CERTO",com:"LC 123/2006: DAS unifica tributos. Benefícios externos ao Simples não se aplicam às optantes."},
+  {id:44,disc:"cp",top:"Balanço Orçamentário",txt:"O Balanço Orçamentário evidencia as receitas previstas em confronto com as arrecadadas e as despesas fixadas com as executadas.",gab:"CERTO",com:"NBC TSP e MCASP: Balanço Orçamentário = execução orçamentária (previsto × realizado)."},
+  {id:45,disc:"efp",top:"Elasticidade",txt:"Um bem com elasticidade-preço da demanda maior que 1 (em módulo) é elástico: redução de 1% no preço gera aumento maior que 1% na quantidade.",gab:"CERTO",com:"Elasticidade |Ed| > 1 → demanda elástica. Redução de preço → aumento mais que proporcional na quantidade → receita total AUMENTA."},
+  {id:46,disc:"dt",top:"ITR",txt:"Municípios que optarem por fiscalizar o ITR recebem 100% da arrecadação, sem repartição com a União.",gab:"CERTO",com:"CF, art. 153, §4º, III: municípios conveniados recebem 100% do ITR."},
+  {id:47,disc:"lt",top:"ITBI",txt:"O ITBI não incide sobre a transmissão de imóveis para integralização de capital social de pessoa jurídica.",gab:"CERTO",com:"CF, art. 156, §2º, I: imunidade do ITBI na integralização. Exceção: atividade preponderante imobiliária."},
+  {id:48,disc:"cg",top:"UEPS",txt:"O UEPS é vedado tanto pelas normas contábeis brasileiras (CPC 16) quanto pelo Fisco para apuração do IRPJ.",gab:"CERTO",com:"UEPS vedado pelo CPC 16 E pelo RIR. Métodos aceitos: PEPS e Média Ponderada."},
+  {id:49,disc:"af",top:"ISS Construção Civil",txt:"Na construção civil com fornecimento de materiais, a BC do ISS pode ser reduzida pelo valor dos materiais incorporados à obra.",gab:"CERTO",com:"LC 116/2003, art. 7º, §2º: dedução dos materiais fornecidos pelo prestador (itens 7.02 e 7.05). STF (RE 603.497) confirmou."},
+  {id:50,disc:"dfin",top:"LRF – Renúncia",txt:"A LRF exige estimativa de impacto e medidas de compensação para concessão de renúncia de receita.",gab:"CERTO",com:"LRF, art. 14: renúncia de receita (isenção, anistia, etc.) exige impacto estimado + compensação."},
+];
+
+const CONTEUDO={
+  lt:{
+    titulo:"Legislação Tributária DF",
+    temas:[
+      {titulo:"ICMS – Fato Gerador e Base de Cálculo",status:"QUENTE",
+       teoria:`FATO GERADOR (LC 87/1996, art. 2º):
+• Circulação de mercadorias (física + jurídica)
+• Serviços de transporte interestadual/intermunicipal
+• Serviços de comunicação
+• Importação do exterior (MESMO ativo permanente/consumo)
+• Fornecimento de mercadorias com serviços NÃO incluídos na LC 116
+
+BASE DE CÁLCULO:
+• Operações internas: valor da operação + IPI (se destinatário não contribuinte)
+• Importação: valor aduaneiro + II + IPI + IOF + ICMS (cálculo "por dentro")
+• CÁLCULO POR DENTRO: BC = Valor / (1 - alíquota)
+
+ALÍQUOTAS DF (RICMS DF):
+• 12%: operações interestaduais Sul/Sudeste
+• 7%: operações interestaduais Norte/Nordeste/CO/ES
+• 17%: operações internas gerais
+• 25%: fumo, bebidas alcoólicas, armas
+• 30%: gasolina e álcool carburante
+
+DIFAL (EC 87/2015):
+• Repartição entre Estado de origem e destino nas operações B2C
+• Consumidor final NÃO contribuinte`,
+       pegadinhas:["ICMS INCIDE na importação mesmo para ativo permanente ou consumo próprio","IPI não entra na BC do ICMS quando o destinatário É contribuinte e o produto é industrializado","Energia elétrica → ICMS; serviços de comunicação → ICMS (não ISS!)","Simples transferência de titularidade sem circulação física NÃO gera ICMS","DIFAL EC 87/2015: repartição entre origem e destino nas operações com consumidor final NÃO contribuinte"],
+       qids:[1,2,3,21]},
+      {titulo:"ISS – LC 116/2003 + Legislação DF",status:"QUENTE",
+       teoria:`REGRA GERAL: ISS devido no município do estabelecimento prestador
+
+EXCEÇÕES (art. 3º LC 116) – ISS no local do:
+• Obra (construção civil, demolição, reparação)
+• Instalação (andaimes, palcos)
+• Tomador dos serviços (saúde, veterinária)
+• Evento (feiras, shows)
+• Porto (serviços portuários)
+
+BASE DE CÁLCULO: Preço do serviço
+• Deduções: materiais em construção civil (itens 7.02 e 7.05)
+• Serviços financeiros: apenas serviços efetivamente prestados
+
+ALÍQUOTA DF: mínimo 2%, máximo 5%
+
+CONFLITO ICMS × ISS:
+• Serviço com fornecimento de mercadorias → ISS (regra geral)
+• Exceções expressas na LC 116: ICMS incide sobre a mercadoria`,
+       pegadinhas:["Construção civil: ISS no município da OBRA, não do prestador","Serviços financeiros: apenas serviços; intermediação financeira própria não é ISS","Serviço NÃO listado na LC 116 → NÃO há ISS (lista taxativa – STJ)","Exportação de serviços: não-incidência do ISS (art. 2º, I, LC 116)"],
+       qids:[4,26,43,47]},
+    ]
+  },
+  dt:{
+    titulo:"Direito Tributário – CTN",
+    temas:[
+      {titulo:"Obrigação e Responsabilidade Tributária",status:"QUENTE",
+       teoria:`OBRIGAÇÃO TRIBUTÁRIA:
+• Principal: pagamento de tributo/penalidade (dar)
+• Acessória: prestações positivas ou negativas (fazer, não fazer, tolerar)
+• Acessória descumprida → transforma-se em principal (multa)
+
+SUJEIÇÃO PASSIVA:
+• Contribuinte: relação pessoal e direta com o fato gerador
+• Responsável: terceiro com obrigação por lei
+
+RESPONSABILIDADE (CTN arts. 129-138):
+• Sucessores: adquirente assume tributos do alienante
+• Terceiros: sócios, administradores
+• Art. 135: excesso de poderes/atos ilícitos → responsabilidade pessoal
+• Por infrações (art. 136): OBJETIVA (independe de dolo/culpa)
+
+CAPACIDADE TRIBUTÁRIA PASSIVA (art. 126):
+Independe de: capacidade civil; constituição da PJ; regularidade perante outros órgãos`,
+       pegadinhas:["Art. 135: sócio-gerente responde por EXCESSO DE PODERES/atos ilícitos — não basta ser sócio!","Responsabilidade por infrações é OBJETIVA (art. 136) — independe de dolo/culpa","Sujeito ativo pode ser autarquia (ex: INSS)","Capacidade tributária ≠ competência tributária"],
+       qids:[6,27]},
+      {titulo:"Crédito Tributário – MODECOPA",status:"QUENTE",
+       teoria:`SUSPENSÃO (art. 151 – MODECOPA):
+MO – Moratória
+DE – Depósito integral
+CO – Concessão de liminar/antecipação de tutela
+PA – Parcelamento (LC 104/2001)
+→ Suspensão impede execução fiscal; NÃO impede fiscalização!
+
+EXTINÇÃO (art. 156 – 11 modalidades):
+→ Pagamento (principal)
+→ Compensação (depende de lei)
+→ Transação (concessões mútuas)
+→ Remissão (perdão total)
+→ Decadência: 5 anos para LANÇAR (art. 173)
+→ Prescrição: 5 anos para COBRAR após lançamento (art. 174)
+→ Dação em pagamento de bens imóveis (LC 104/2001)
+
+EXCLUSÃO (art. 175):
+→ Isenção: dispensa do pagamento do tributo
+→ Anistia: dispensa das penalidades (infrações anteriores)
+⚠️ Exclusão impede o lançamento`,
+       pegadinhas:["Decadência: ANTES do lançamento (prazo pra LANÇAR). Prescrição: APÓS (prazo pra COBRAR)","Moratória ≠ parcelamento: moratória dilata prazo futuro; parcelamento fraciona dívida existente","Remissão (perdão) ≠ Remição (pagamento/resgate)","Anistia só alcança infrações ANTERIORES à lei (art. 180)"],
+       qids:[7,8,22,38]},
+    ]
+  },
+  cg:{
+    titulo:"Contabilidade Geral e de Custos",
+    temas:[
+      {titulo:"Demonstrações Contábeis",status:"QUENTE",
+       teoria:`CONJUNTO COMPLETO (CPC 26):
+1. Balanço Patrimonial (BP)
+2. DRE – Demonstração do Resultado do Exercício
+3. DLPA ou DMPL
+4. DFC – obrigatória para cias. não-pequenas
+5. DVA – obrigatória para S.A. abertas
+6. Notas Explicativas
+
+DFC – MÉTODOS:
+• Direto: recebimentos e pagamentos brutos
+• Indireto: parte do LAIR → ajustes de itens não-caixa
+
+AJUSTES NO MÉTODO INDIRETO:
+(+) Depreciação, amortização, exaustão
+(+) Provisões constituídas
+(-) Provisões revertidas
+(+/-) Variação de capital de giro:
+   Ativo corrente ↑ = USO de caixa (-)
+   Passivo corrente ↑ = FONTE de caixa (+)
+
+PONTO CRÍTICO:
+Depreciação → reduz resultado MAS não afeta caixa`,
+       pegadinhas:["Depreciação: REDUZ resultado mas NÃO afeta caixa → somada no indireto da DFC","DVA obrigatória apenas para S.A. ABERTAS","Direto e indireto → mesmo resultado de caixa das atividades operacionais","DFC obrigatória para S.A. abertas e fechadas com PL > R$2M"],
+       qids:[16,24,29,39]},
+      {titulo:"Custeio e Ponto de Equilíbrio",status:"QUENTE",
+       teoria:`CUSTEIO POR ABSORÇÃO vs. VARIÁVEL:
+• Absorção: custo fixo no produto (inventariável) → aceito pelo Fisco
+• Variável: custo fixo é despesa do período → para decisões gerenciais
+• Lucro absorção > Lucro variável quando produção > vendas
+
+MARGEM DE CONTRIBUIÇÃO:
+MC = Receita – Custos Variáveis – Despesas Variáveis
+MC% = MC / Receita
+
+PONTO DE EQUILÍBRIO:
+• Contábil (PEC): CF+DF / MC% → Lucro = 0
+• Econômico (PEE): (CF+DF+Lucro Mínimo) / MC%
+• Financeiro (PEF): (CF+DF–Depreciação) / MC%
+Ordem: PEF < PEC < PEE
+
+GAO – Grau de Alavancagem Operacional:
+GAO = MC Total / Lucro Operacional
+Ex: GAO=3 → venda +10% → lucro +30%
+
+ESTOQUES – Métodos (em inflação):
+• PEPS: CMV menor, estoque maior
+• UEPS: CMV maior, estoque menor (VEDADO no Brasil)
+• Média: intermediário`,
+       pegadinhas:["Absorção: lucro maior quando produção > vendas","Variável: mais útil para decisões; absorção exigido pelo Fisco para IRPJ","PEF < PEC < PEE (sempre, se há depreciação e custo de oportunidade positivo)","UEPS vedado pelo CPC 16 E pelo Fisco (RIR)"],
+       qids:[14,15,17,33,48]},
+    ]
+  },
+  af:{
+    titulo:"Auditoria Fiscal ICMS/ISS",
+    temas:[
+      {titulo:"Fraudes Clássicas e Técnicas de Detecção",status:"QUENTE",
+       teoria:`AUDITORIA DO CAIXA:
+• Saldo credor no caixa → impossibilidade física → omissão de receitas
+• Recomposição do fluxo: entradas registradas vs. saídas documentadas
+• Suprimento sem comprovação → presunção de omissão
+
+OMISSÃO DE RECEITAS – DETECÇÃO:
+• Levantamento financeiro: entradas vs. saídas
+• Margem de lucro bruto: comparar com margem setorial
+• Cotejamento de recebíveis: NF emitidas vs. contas a receber
+
+PASSIVOS FICTÍCIOS:
+• Fornecedores inexistentes
+• Compras sem saída de caixa
+• Objetivo: inflar despesas → reduzir IRPJ/CSLL
+
+CRÉDITO INDEVIDO DE ICMS:
+• Crédito sobre bens para uso/consumo (vedado até 2033)
+• Crédito sobre aquisições de não-contribuintes
+• Crédito sobre mercadorias isentas sem autorização
+
+EFD – SPED FISCAL:
+• Regulamentado pelo Ajuste SINIEF 07/2005
+• NF-e: assinatura digital ICP-Brasil
+• NÃO dispensa guarda dos documentos físicos (5 anos)`,
+       pegadinhas:["Saldo credor no caixa: indício, não prova absoluta. Empresa pode ilidir a presunção","EFD não dispensa guarda de documentos físicos","Crédito de ativo permanente: 1/48 ao mês","NBC TA 530: amostragem estatística E não estatística são válidas"],
+       qids:[11,12,13,23,28,34,40,49]},
+    ]
+  }
+};
+
+// ═══════════════════════════════════ CRONOGRAMA
+const FERIADOS=new Set(["2026-06-19","2026-07-02","2026-07-06","2026-07-07","2026-07-09","2026-07-21","2026-07-22","2026-07-23","2026-08-08","2026-08-10","2026-08-11","2026-09-01","2026-09-02","2026-09-03","2026-09-07","2026-10-05","2026-10-06","2026-10-07","2026-10-12","2026-10-28","2026-11-02","2026-11-15","2026-11-20","2026-12-08","2026-12-25"]);
+const PLANO=[
+  {disc:"lt",top:"ICMS – Fato Gerador e BC",semanas:2},
+  {disc:"cg",top:"Demonstrações Contábeis",semanas:2},
+  {disc:"dt",top:"Obrigação Tributária",semanas:1},
+  {disc:"lt",top:"ICMS – Não-Incidência e Isenções",semanas:2},
+  {disc:"af",top:"Fraudes – Saldo credor caixa",semanas:1},
+  {disc:"dt",top:"Crédito Tributário – MODECOPA",semanas:2},
+  {disc:"lt",top:"ICMS – Crédito Fiscal 1/48",semanas:2},
+  {disc:"cg",top:"Custeio por Absorção vs. Variável",semanas:2},
+  {disc:"lt",top:"ISS – LC 116/2003",semanas:2},
+  {disc:"af",top:"EFD – SPED Fiscal e NF-e",semanas:1},
+  {disc:"lt",top:"Processo Adm. Fiscal DF (Lei 4.567/2011)",semanas:1},
+  {disc:"dt",top:"Competência Tributária e Imunidades",semanas:1},
+  {disc:"cg",top:"Ponto de Equilíbrio e GAO",semanas:1},
+  {disc:"lt",top:"Simples Nacional – LC 123/2006",semanas:1},
+  {disc:"da",top:"Licitações – Lei 8.666/1993",semanas:1},
+  {disc:"da",top:"Atos Administrativos",semanas:1},
+  {disc:"dc",top:"Controle de Constitucionalidade",semanas:1},
+  {disc:"dfin",top:"Orçamento Público e LRF",semanas:1},
+  {disc:"lt",top:"ITCD e ITBI – Legislação DF",semanas:1},
+  {disc:"efp",top:"Economia – Oferta, Demanda, Elasticidade",semanas:2},
+  {disc:"cp",top:"Contabilidade Pública – NBC TSP",semanas:2},
+  {disc:"af",top:"Auditoria ISS – Bases de Cálculo",semanas:1},
+  {disc:"mrl",top:"Raciocínio Lógico – Proposições",semanas:1},
+  {disc:"ti",top:"TI – BD, Segurança, PMBOK",semanas:1},
+  {disc:"df_co",top:"Conhecimentos do DF",semanas:1},
+  {disc:"lt",top:"REVISÃO GERAL – Legislação Tributária",semanas:2},
+  {disc:"cg",top:"REVISÃO GERAL – Contabilidade",semanas:1},
+  {disc:"dt",top:"REVISÃO GERAL – Direito Tributário",semanas:1},
+  {disc:"lt",top:"SIMULADOS FINAIS – P1 + P2",semanas:2},
+];
+const ATIVIDADES=["Teoria (30%)", "Exercícios Cebraspe (50%)", "Revisão (20%)"];
+const DISC_CORES={"lt":"#ef4444","dt":"#3b82f6","cg":"#f59e0b","af":"#8b5cf6","da":"#22c55e","dc":"#06b6d4","dfin":"#10b981","efp":"#f97316","cp":"#6366f1","mrl":"#ec4899","ti":"#14b8a6","df_co":"#6b7280","dcep":"#84cc16","lp":"#a855f7","mrl":"#ec4899"};
+
+function gerarCronograma(){
+  const sessoes=[];
+  let data=new Date("2026-06-20");
+  const fim=new Date("2026-12-19");
+  let pi=0,diasBloco=0;
+  while(data<=fim && pi<PLANO.length){
+    const dow=data.getDay();
+    const ds=data.toISOString().split("T")[0];
+    if(dow!==0 && !FERIADOS.has(ds)){
+      const b=PLANO[pi];
+      const ativ=ATIVIDADES[sessoes.filter(s=>s.pi===pi).length%3];
+      sessoes.push({data:ds,disc:b.disc,top:b.top,ativ,feito:false,pi});
+      diasBloco++;
+      if(diasBloco>=b.semanas*5){pi++;diasBloco=0;}
+    }
+    data.setDate(data.getDate()+1);
+  }
+  return sessoes;
+}
+
+// ═══════════════════════════════════ STATE
+let cronograma=[];
+try{cronograma=JSON.parse(localStorage.getItem("cron_sefaz")||"null")||gerarCronograma();}catch{cronograma=gerarCronograma();}
+let simQuestoes=[];
+let simRespostas={};
+let simIdx=0;
+let simTimer=null;
+let simSegundos=5400;
+let simAtivo=false;
+let discAtual="lt";
+let temaAtual=0;
+let innerTab="teoria";
+
+// ═══════════════════════════════════ INIT
+function badge(txt,cor){return `<span class="badge" style="background:${cor}22;color:${cor};border:1px solid ${cor}44">${txt}</span>`;}
+function pbar(v,max,cor,h=10){const p=Math.min(100,(v/max)*100);return `<div class="pbar-wrap"><div class="pbar" style="width:${p}%;background:${cor};height:${h}px"></div></div>`;}
+
+function initPareto(){
+  let html="";
+  DISCIPLINAS.forEach((d,i)=>{
+    html+=`<tr>
+      <td><strong>${d.nome}</strong></td>
+      <td>${badge(d.prova,d.prova==="P2"?"#3b82f6":"#22c55e")}</td>
+      <td style="text-align:center">${d.q}</td>
+      <td style="text-align:center;font-weight:700">${d.peso.toFixed(2)}%</td>
+      <td>${badge(d.cat,CAT_COR[d.cat])}</td>
+      <td>${badge(d.nivel,NIVEL_COR[d.nivel]||"#6b7280")}</td>
+      <td>${d.cat==="PRIORITÁRIA"?"~15-20%":d.cat==="COMPLEMENTAR"?"~5-8%":"~2%"}</td>
+    </tr>`;
+  });
+  document.getElementById("tbl-disciplinas").innerHTML=html;
+}
+
+function initCronograma(){
+  const container=document.getElementById("cronograma-container");
+  const meses={};
+  cronograma.forEach((s,i)=>{
+    const m=s.data.slice(0,7);
+    if(!meses[m])meses[m]=[];
+    meses[m].push({...s,idx:i});
+  });
+  let html="";
+  const hoje=new Date().toISOString().slice(0,7);
+  Object.entries(meses).forEach(([m,dias])=>{
+    const feitos=dias.filter(d=>d.feito).length;
+    const aberto=m===hoje?"":"hidden";
+    const nomeM=new Date(m+"-15").toLocaleString("pt-BR",{month:"long",year:"numeric"}).toUpperCase();
+    html+=`<div>
+      <button class="mes-header" onclick="toggleMes('mes-${m}')">
+        <span>📅 ${nomeM}</span>
+        <span style="font-size:11px;opacity:.7">${feitos}/${dias.length} ▼</span>
+      </button>
+      <div id="mes-${m}" class="mes-body ${aberto}">
+        <table class="tbl">
+          <thead><tr><th>✓</th><th>Data</th><th>Disc.</th><th>Subtópico</th><th>Atividade</th></tr></thead>
+          <tbody>`;
+    dias.forEach(s=>{
+      const d=new Date(s.data+"T12:00:00");
+      const ds=d.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"2-digit"});
+      const cor=DISC_CORES[s.disc]||"#6b7280";
+      html+=`<tr style="background:${s.feito?"#f0fdf4":""}">
+        <td><input type="checkbox" ${s.feito?"checked":""} onchange="toggleFeito(${s.idx},this)"/></td>
+        <td style="${s.feito?"text-decoration:line-through;color:#94a3b8":"font-weight:600"}">${ds}</td>
+        <td>${badge(s.disc.toUpperCase(),cor)}</td>
+        <td style="font-size:12px">${s.top}</td>
+        <td>${badge(s.ativ.split(" ")[0],s.ativ.includes("Teoria")?"#3b82f6":s.ativ.includes("Exerc")?"#8b5cf6":"#22c55e")}</td>
+      </tr>`;
+    });
+    html+="</tbody></table></div></div>";
+  });
+  container.innerHTML=html;
+  atualizarCronKPIs();
+}
+
+function toggleMes(id){const el=document.getElementById(id);el.classList.toggle("hidden");}
+
+function toggleFeito(idx,cb){
+  cronograma[idx].feito=cb.checked;
+  localStorage.setItem("cron_sefaz",JSON.stringify(cronograma));
+  const tr=cb.closest("tr");
+  tr.style.background=cb.checked?"#f0fdf4":"";
+  const td=tr.querySelector("td:nth-child(2)");
+  td.style.textDecoration=cb.checked?"line-through":"";
+  td.style.color=cb.checked?"#94a3b8":"";
+  atualizarCronKPIs();
+}
+
+function atualizarCronKPIs(){
+  const feitos=cronograma.filter(s=>s.feito).length;
+  const total=cronograma.length;
+  document.getElementById("cron-feitos").textContent=feitos+"/"+total;
+  document.getElementById("cron-restantes").textContent=(total-feitos);
+  document.getElementById("cron-bar").style.width=Math.round(feitos/total*100)+"%";
+}
+
+function initEstudar(){setDisc("lt",null);}
+
+function setDisc(id,btn){
+  discAtual=id;temaAtual=0;innerTab="teoria";
+  document.querySelectorAll(".sidebar-btn").forEach(b=>{
+    if(b.onclick&&b.onclick.toString().includes("setDisc"))b.classList.remove("active");
+  });
+  if(btn)btn.classList.add("active");
+  const d=CONTEUDO[id];
+  let html="";
+  d.temas.forEach((t,i)=>{
+    html+=`<button class="sidebar-btn ${i===0?"active":""}" onclick="setTema(${i},this)">${t.status==="QUENTE"?"🔥":"🌡️"} ${t.titulo.slice(0,28)}</button>`;
+  });
+  document.getElementById("temas-container").innerHTML=html;
+  renderTema();
+}
+
+function setTema(i,btn){
+  temaAtual=i;innerTab="teoria";
+  document.querySelectorAll("#temas-container .sidebar-btn").forEach(b=>b.classList.remove("active"));
+  if(btn)btn.classList.add("active");
+  document.querySelectorAll(".inner-tab").forEach(b=>{b.classList.remove("active");if(b.onclick&&b.onclick.toString().includes("'teoria'"))b.classList.add("active");});
+  renderTema();
+}
+
+function renderTema(){
+  const d=CONTEUDO[discAtual];
+  const t=d.temas[temaAtual];
+  document.getElementById("estudo-titulo").textContent=t.titulo;
+  document.getElementById("estudo-status").innerHTML=badge(t.status,t.status==="QUENTE"?"#ef4444":"#f59e0b");
+  renderInnerTab();
+}
+
+function setInnerTab(tab,btn){
+  innerTab=tab;
+  document.querySelectorAll(".inner-tab").forEach(b=>b.classList.remove("active"));
+  if(btn)btn.classList.add("active");
+  renderInnerTab();
+}
+
+function renderInnerTab(){
+  const t=CONTEUDO[discAtual].temas[temaAtual];
+  const tabs=["teoria","pegadinhas","questoes"];
+  tabs.forEach(tab=>{
+    const el=document.getElementById("inner-"+tab);
+    el.style.display=tab===innerTab?"block":"none";
+  });
+  if(innerTab==="teoria"){
+    document.getElementById("inner-teoria").innerHTML=`<div class="teoria-box">${t.teoria}</div>`;
+  }
+  if(innerTab==="pegadinhas"){
+    document.getElementById("inner-pegadinhas").innerHTML=t.pegadinhas.map(p=>`<div class="alert alert-red"><span style="font-size:18px">⚠️</span> ${p}</div>`).join("");
+  }
+  if(innerTab==="questoes"){
+    const qs=QUESTOES.filter(q=>t.qids&&t.qids.includes(q.id));
+    document.getElementById("inner-questoes").innerHTML=qs.map(q=>renderQCard(q)).join("");
+  }
+}
+
+function renderQCard(q){
+  return `<div class="questao-card" id="qcard-${q.id}">
+    <div class="q-meta">Q${q.id} | ${q.top} | ${badge(q.gab,q.gab==="CERTO"?"#22c55e":"#ef4444")}</div>
+    <p class="q-text">${q.txt}</p>
+    <div class="q-opts">
+      <button class="q-btn" id="qb-certo-${q.id}" onclick="respQ(${q.id},'CERTO')">✅ CERTO</button>
+      <button class="q-btn" id="qb-errado-${q.id}" onclick="respQ(${q.id},'ERRADO')">❌ ERRADO</button>
+      <button class="q-btn" onclick="document.getElementById('qgab-${q.id}').classList.toggle('show')">Ver Gabarito</button>
+    </div>
+    <div id="qfeed-${q.id}" class="q-feedback"></div>
+    <div id="qgab-${q.id}" class="q-gabarito">💡 <strong>${q.gab}</strong> — ${q.com}</div>
+  </div>`;
+}
+
+function respQ(id,resp){
+  const q=QUESTOES.find(x=>x.id===id);
+  const certo=resp==="CERTO";
+  document.getElementById("qb-certo-"+id).className="q-btn"+(certo?" certo":"");
+  document.getElementById("qb-errado-"+id).className="q-btn"+(!certo?" errado":"");
+  const ok=resp===q.gab;
+  document.getElementById("qfeed-"+id).innerHTML=`<span style="color:${ok?"#15803d":"#dc2626"}">${ok?"✅ Correto!":"❌ Errado"}</span>`;
+}
+
+function initSimulado(){
+  const fl=document.getElementById("sim-filtros");
+  fl.innerHTML=DISCIPLINAS.map(d=>`<label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 10px;border-radius:8px;background:#f8fafc;border:1px solid #e2e8f0;font-size:12px">
+    <input type="checkbox" id="sf-${d.id}" checked onchange="atualizarSimCount()"> ${d.nome} ${badge(d.prova,d.prova==="P2"?"#3b82f6":"#22c55e")}
+  </label>`).join("");
+  atualizarSimCount();
+}
+
+function atualizarSimCount(){
+  const selecionados=DISCIPLINAS.filter(d=>document.getElementById("sf-"+d.id)?.checked).map(d=>d.id);
+  const count=QUESTOES.filter(q=>selecionados.includes(q.disc)).length;
+  document.getElementById("sim-count").textContent=count+" questões disponíveis";
+}
+
+function iniciarSimulado(){
+  const selecionados=DISCIPLINAS.filter(d=>document.getElementById("sf-"+d.id)?.checked).map(d=>d.id);
+  const pool=QUESTOES.filter(q=>selecionados.includes(q.disc));
+  simQuestoes=[...pool].sort(()=>Math.random()-.5).slice(0,50);
+  simRespostas={};simIdx=0;simSegundos=5400;simAtivo=true;
+  document.getElementById("sim-config").style.display="none";
+  document.getElementById("sim-game").style.display="block";
+  document.getElementById("sim-resultado").style.display="none";
+  renderSimQuestao();
+  if(simTimer)clearInterval(simTimer);
+  simTimer=setInterval(()=>{
+    simSegundos--;
+    const m=String(Math.floor(simSegundos/60)).padStart(2,"0");
+    const s=String(simSegundos%60).padStart(2,"0");
+    const el=document.getElementById("sim-timer");
+    el.textContent=m+":"+s;
+    el.style.color=simSegundos<300?"#ef4444":"#22c55e";
+    if(simSegundos<=0){clearInterval(simTimer);encerrarSimulado();}
+  },1000);
+}
+
+function renderSimQuestao(){
+  const q=simQuestoes[simIdx];
+  if(!q)return;
+  const d=DISC_MAP[q.disc];
+  document.getElementById("sim-disc-badge").innerHTML=badge(d?d.nome:q.disc,DISC_CORES[q.disc]||"#6b7280");
+  document.getElementById("sim-qnum").textContent=`Q ${simIdx+1} de ${simQuestoes.length}`;
+  document.getElementById("sim-enunciado").textContent=q.txt;
+  const resp=simRespostas[q.id];
+  const bc=document.getElementById("sim-certo");
+  const be=document.getElementById("sim-errado");
+  bc.className="sim-opt"+(resp==="CERTO"?" certo":"");
+  be.className="sim-opt"+(resp==="ERRADO"?" errado":"");
+  const prog=Object.keys(simRespostas).length;
+  document.getElementById("sim-prog").style.width=Math.round(prog/simQuestoes.length*100)+"%";
+  document.getElementById("sim-progtext").textContent=prog+"/"+simQuestoes.length+" respondidas";
+  document.getElementById("sim-prox").textContent=simIdx<simQuestoes.length-1?"Próxima →":"Finalizar";
+  // numpad
+  let np="";
+  simQuestoes.slice(0,20).forEach((_,i)=>{
+    const a=simRespostas[simQuestoes[i]?.id];
+    np+=`<button class="num-btn ${i===simIdx?"atual":a?"resp":""}" onclick="simIdx=${i};renderSimQuestao()">${i+1}</button>`;
+  });
+  document.getElementById("sim-numpad").innerHTML=np;
+}
+
+function responderSim(resp){
+  const q=simQuestoes[simIdx];
+  if(!q)return;
+  simRespostas[q.id]=resp;
+  renderSimQuestao();
+}
+
+function navSim(dir){
+  if(simIdx+dir<0||simIdx+dir>simQuestoes.length)return;
+  if(simIdx===simQuestoes.length-1&&dir===1){encerrarSimulado();return;}
+  simIdx=Math.max(0,Math.min(simQuestoes.length-1,simIdx+dir));
+  renderSimQuestao();
+}
+
+function encerrarSimulado(){
+  clearInterval(simTimer);simAtivo=false;
+  document.getElementById("sim-game").style.display="none";
+  const acertos=simQuestoes.filter(q=>simRespostas[q.id]===q.gab).length;
+  const resp=Object.keys(simRespostas).length;
+  const pct=resp>0?Math.round(acertos/resp*100):0;
+  const ok=pct>=70;
+  // por disc
+  const pd={};
+  simQuestoes.forEach(q=>{if(!pd[q.disc])pd[q.disc]={t:0,a:0};pd[q.disc].t++;if(simRespostas[q.id]===q.gab)pd[q.disc].a++;});
+  let pdHtml=Object.entries(pd).map(([id,d])=>{
+    const p=Math.round(d.a/d.t*100);
+    return `<div class="pbar-row"><div class="pbar-top"><span>${DISC_MAP[id]?.nome||id}</span><span style="font-weight:700;color:${p>=70?"#15803d":"#dc2626"}">${d.a}/${d.t} (${p}%)</span></div>${pbar(d.a,d.t,p>=70?"#22c55e":"#ef4444")}</div>`;
+  }).join("");
+  // gabarito
+  let gabHtml=simQuestoes.map(q=>{
+    const certa=simRespostas[q.id]===q.gab;
+    return `<div style="background:${certa?"#f0fdf4":"#fef2f2"};border:1px solid ${certa?"#86efac":"#fca5a5"};border-radius:8px;padding:12px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:11px;color:#64748b">Q${q.id} | ${DISC_MAP[q.disc]?.nome||q.disc}</span><span style="font-size:12px;font-weight:700;color:${certa?"#15803d":"#dc2626"}">${certa?"✅ CERTO":"❌ Era: "+q.gab}</span></div>
+      <p style="font-size:12px;margin:0 0 6px;color:#374151">${q.txt}</p>
+      <div style="background:#fffbeb;border:1px solid #fbbf24;border-radius:6px;padding:6px 10px;font-size:11px;color:#78350f">💡 ${q.com}</div>
+    </div>`;
+  }).join("");
+  document.getElementById("sim-resultado").innerHTML=`
+    <div class="resultado-big" style="background:${ok?"#f0fdf4":"#fef2f2"};border-color:${ok?"#22c55e":"#ef4444"}">
+      <div style="font-size:48px;font-weight:800;color:${ok?"#15803d":"#dc2626"}">${pct}%</div>
+      <div style="font-size:16px;font-weight:700">${acertos} de ${simQuestoes.length} corretas</div>
+      <div style="font-size:13px;color:${ok?"#15803d":"#dc2626"};font-weight:700;margin-top:8px">${ok?"🎉 Acima do corte estimado!":"📚 Meta: 70%+ — continue!"}</div>
+    </div>
+    <h3 style="font-size:14px;font-weight:800;margin-bottom:12px">📊 Por Disciplina</h3>
+    ${pdHtml}
+    <div style="display:flex;gap:12px;margin:20px 0">
+      <button class="btn btn-dark" onclick="document.getElementById('sim-config').style.display='block';document.getElementById('sim-resultado').style.display='none'">🔄 Novo Simulado</button>
+    </div>
+    <h3 style="font-size:14px;font-weight:800;margin-bottom:12px">📋 Gabarito Comentado</h3>
+    ${gabHtml}`;
+  document.getElementById("sim-resultado").style.display="block";
+}
+
+function initLista(){
+  const lista=[
+    {disc:"lt",top:"ICMS – Fato Gerador e BC",sub:"Cálculo por dentro; DIFAL EC 87/2015",just:"25q P2 × peso 3× = maior impacto",ret:"Alto",status:"QUENTE"},
+    {disc:"lt",top:"ICMS – Crédito Fiscal",sub:"1/48 ativo permanente; vedações clássicas",just:"Cobrado em >80% das provas ICMS Cebraspe",ret:"Alto",status:"QUENTE"},
+    {disc:"lt",top:"ISS – LC 116/2003",sub:"Construção civil; conflito ICMS×ISS",just:"Frequente em provas de Fiscal",ret:"Alto",status:"QUENTE"},
+    {disc:"dt",top:"Crédito Tributário",sub:"MODECOPA; decadência vs prescrição",just:"Pegadinhas caem em 100% das bancas",ret:"Alto",status:"QUENTE"},
+    {disc:"cg",top:"Custeio por Absorção vs Variável",sub:"PE Contábil/Econômico/Financeiro; GAO; MC",just:"15q P2; base para questões de custos",ret:"Alto",status:"QUENTE"},
+    {disc:"af",top:"Fraudes – Saldo credor caixa",sub:"Omissão de receitas; passivos fictícios",just:"Técnica central da auditoria fiscal",ret:"Médio",status:"QUENTE"},
+    {disc:"dt",top:"Responsabilidade Tributária",sub:"Art. 135 CTN; solidariedade",just:"Cobrado em Tributário e Administrativo",ret:"Alto",status:"QUENTE"},
+    {disc:"lt",top:"Processo Adm. Fiscal DF",sub:"Lei 4.567/2011; prazos; recursos",just:"Legislação local DF = altamente cobrado",ret:"Médio",status:"QUENTE"},
+    {disc:"cg",top:"DFC – Método Indireto",sub:"Ajuste depreciação; variação capital de giro",just:"Questão quase certa em Contabilidade Cebraspe",ret:"Alto",status:"QUENTE"},
+    {disc:"da",top:"Licitações – Lei 8.666",sub:"Modalidades; alteração unilateral; equilíbrio",just:"10q P1; base para carreira fiscal",ret:"Médio",status:"QUENTE"},
+    {disc:"dc",top:"Imunidades Tributárias",sub:"Imunidade recíproca; templos; partidos",just:"Interseção DT × DC; cobrado nas duas provas",ret:"Alto",status:"QUENTE"},
+    {disc:"lt",top:"ITCD DF – Lei 3.804/2006",sub:"Fato gerador; alíquotas progressivas",just:"Legislação local DF específica",ret:"Médio",status:"MORNO"},
+    {disc:"efp",top:"LRF – Limites e Vedações",sub:"Renúncia de receita; restos a pagar",just:"Interseção Economia×Finanças×Dir. Financeiro",ret:"Médio",status:"MORNO"},
+    {disc:"da",top:"Atos Administrativos",sub:"Atributos; revogação vs anulação",just:"Garante questões básicas P1",ret:"Médio",status:"MORNO"},
+    {disc:"af",top:"EFD – SPED Fiscal",sub:"Ajuste SINIEF 07/2005; NF-e; guarda docs",just:"Legislação vigente em provas atuais",ret:"Médio",status:"MORNO"},
+    {disc:"df_co",top:"Conhecimentos do DF",sub:"Lei Orgânica; estrutura política",just:"Apenas 2 questões; estudar por último",ret:"Baixo",status:"FRIO"},
+  ];
+  const RET_COR={Alto:"#22c55e",Médio:"#f59e0b",Baixo:"#94a3b8"};
+  const S_COR={QUENTE:"#ef4444",MORNO:"#f59e0b",FRIO:"#94a3b8"};
+  document.getElementById("tbl-lista").innerHTML=lista.map((item,i)=>`<tr>
+    <td style="font-weight:800;color:${i<5?"#ef4444":i<10?"#f59e0b":"#94a3b8"}">${i+1}</td>
+    <td>${badge(item.disc.toUpperCase(),DISC_CORES[item.disc]||"#6b7280")}</td>
+    <td style="font-weight:600">${item.top}</td>
+    <td style="font-size:11px;color:#475569">${item.sub}</td>
+    <td style="font-size:11px;color:#64748b;max-width:180px">${item.just}</td>
+    <td>${badge(item.ret,RET_COR[item.ret])}</td>
+    <td>${badge(item.status,S_COR[item.status])}</td>
+  </tr>`).join("");
+}
+
+function initRegua(){
+  const nao=[
+    {disc:"Conhecimentos do DF",motivo:"2 questões P1. Conteúdo local imprevisível. ROI extremamente baixo."},
+    {disc:"Estatística Inferencial (testes de hipótese)",motivo:"Baixa frequência histórica em Cebraspe SEFAZ. Descritiva e Probabilidade são muito mais cobradas."},
+    {disc:"Direito Empresarial – profundidade societária",motivo:"10 questões divididas com Civil e Penal. Foque em Títulos de Crédito e Falência. Ignore profundidade societária."},
+    {disc:"ITIL v3 completo",motivo:"TI cobra conceitos, não detalhe ITIL. 1-2 questões sobre fundamentos. Não vale aprofundar."},
+    {disc:"CIP e TLP – Legislação Tributária DF",motivo:"Contribuições menores. Raríssimas em provas. Estude apenas após dominar ICMS/ISS."},
+  ];
+  const alertas=[
+    {tipo:"⚠️ Pegadinha Clássica",desc:"Afirmação quase certa com UMA palavra errada ('sempre', 'nunca', 'independentemente'). Foco no advérbio."},
+    {tipo:"📖 Interpretação de Texto",desc:"Português do Cebraspe: inferência textual — nunca use conhecimento externo para julgar itens de compreensão."},
+    {tipo:"⚖️ Jurisprudência STF/STJ",desc:"Tributário e Administrativo: Súmulas Vinculantes e leading cases (SV 32 – salvados; RE 601.314 – sigilo bancário)."},
+    {tipo:"🔢 Cálculo Numérico Mínimo",desc:"Sem calculadora. Cebraspe cobra o conceito do cálculo (fórmula, qual é maior/menor), não resultado complexo."},
+    {tipo:"📋 Letra da Lei vs. Doutrina",desc:"Cebraspe prioriza texto literal. Se a lei diz X e a doutrina diz Y, a lei prevalece — exceto se a questão cita 'segundo a doutrina'."},
+    {tipo:"🕐 Gestão do Tempo",desc:"120 questões em 5h = 2,5 min/questão. Meta: <1,5 min por questão segura. Nunca deixe em branco (sem penalidade extra na fórmula Cebraspe)."},
+  ];
+  document.getElementById("nao-estudar-container").innerHTML=nao.map(item=>`<div class="alert alert-red" style="display:flex;gap:12px;margin-bottom:10px"><span style="font-size:20px">✂️</span><div><strong>${item.disc}</strong><br><span style="font-size:12px">${item.motivo}</span></div></div>`).join("");
+  document.getElementById("alertas-container").innerHTML=alertas.map(a=>`<div class="alert alert-yellow" style="margin-bottom:10px"><strong>${a.tipo}</strong><br>${a.desc}</div>`).join("");
+}
+
+function initProgresso(){
+  const nivelNum={Bom:75,Médio:50,Fraco:25,Zero:0};
+  const sorted=[...DISCIPLINAS].sort((a,b)=>b.peso-a.peso);
+  document.getElementById("heatmap-container").innerHTML=sorted.map(d=>{
+    const n=nivelNum[d.nivel]||0;
+    const cor=NIVEL_COR[d.nivel]||"#6b7280";
+    const aviso=d.nivel==="Fraco"||d.nivel==="Zero"?`<div style="font-size:10px;color:#ef4444;margin-top:2px">⚠️ ${d.cat==="PRIORITÁRIA"?"URGENTE: alto peso + nível baixo!":"Precisa de atenção"}</div>`:"";
+    return `<div class="pbar-row">
+      <div class="pbar-top">
+        <div style="display:flex;gap:8px;align-items:center"><span style="font-size:13px;font-weight:700">${d.nome}</span>${badge(d.nivel,cor)}${badge(d.cat,CAT_COR[d.cat])}</div>
+        <span style="font-size:12px;color:#64748b">Peso: ${d.peso.toFixed(1)}%</span>
+      </div>
+      <div class="pbar-wrap"><div class="pbar" style="width:${n}%;background:${cor};height:12px"></div></div>
+      ${aviso}
+    </div>`;
+  }).join("");
+  const media=Math.round(sorted.reduce((s,d)=>s+(nivelNum[d.nivel]||0),0)/sorted.length);
+  document.getElementById("prog-media").textContent=media+"%";
+  document.getElementById("prog-media").style.color=media>=60?"#22c55e":media>=40?"#f59e0b":"#ef4444";
+}
+
+// ═══════════════════════════════════ TAB NAV
+function showTab(id){
+  document.querySelectorAll(".tab-pane").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+  document.getElementById("tab-"+id).classList.add("active");
+  event.currentTarget.classList.add("active");
+}
+
+// ═══════════════════════════════════ BOOT
+initPareto();
+initCronograma();
+initEstudar();
+initSimulado();
+initLista();
+initRegua();
+initProgresso();
+</script>
+</body>
+</html>
